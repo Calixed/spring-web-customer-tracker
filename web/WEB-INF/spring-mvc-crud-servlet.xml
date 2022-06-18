@@ -15,7 +15,7 @@
 		http://www.springframework.org/schema/tx/spring-tx.xsd">
 
 	<!-- Add support for component scanning FOR CONTROLLERS-->
-	<context:component-scan base-package="spring.controller" />
+	<context:component-scan base-package="spring" /> <!-- VERY IMPORTANT -->
 
 	<!-- Add support for conversion, formatting and validation support -->
 	<mvc:annotation-driven/>
