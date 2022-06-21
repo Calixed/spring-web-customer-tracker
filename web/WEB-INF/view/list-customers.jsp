@@ -7,11 +7,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Customer List</title>
-
 	<link type="text/css"
 		  rel="stylesheet"
 		  href="${pageContext.request.contextPath}/resources/css/style.css" />
-
 </head>
 <body>
 	<h1>Test List Customer</h1>
@@ -24,23 +22,37 @@
 
 	<div id="container">
 		<div id="content">
-
+			<!-- button: Add Customer -->
+			<input type="button" value="Add Customer" 
+				onClick="window.location.href= 'addCustomerForm'; return False"
+				class ="add-button"
+			/> <!-- Call spring controller mapping -->
+	
 			<!-- add html table here -->
-
 			<table>
 				<tr>
 					<th>First Name</th>
 					<th>Last Name</th>
 					<th>Email</th>
+					<th>Action</th>
 				</tr>
 
 				<!-- looping through the passed data -->
 				<c:forEach var="tempCustomer" items="${customers}">
-
+						
+					<!-- update link with customer id -->
+					<c:url var="updateLink" value="/customer/updateCustomerForm">
+						<c:param name="customerId" value="${tempCustomer.id}"/> <!-- PARAMETER customerId when looping -->
+					</c:url>
+					
 					<tr>
 						<td>${tempCustomer.firstName}</td>
 						<td>${tempCustomer.lastName}</td>
 						<td>${tempCustomer.email}</td>
+						
+						<td>
+							<a href="${updateLink}">Update</a>
+						</td>
 					</tr>
 
 				</c:forEach>
