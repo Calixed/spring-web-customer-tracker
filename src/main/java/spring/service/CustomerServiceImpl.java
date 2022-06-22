@@ -31,9 +31,16 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	@Transactional
-	public Customer getCustomer(int theId) {
+	public Customer getCustomer(int tempCustomerId) {
 		// use DAO to retrieve the Customer data
-		return customerDAO.getCustomer(theId);
+		return customerDAO.getCustomer(tempCustomerId);
+	}
+
+	@Override
+	@Transactional
+	public void deleteCustomer(int tempCustomerId) {
+		// passing to the DAO customer id to delete it
+		customerDAO.deleteCustomer(tempCustomerId);
 	}
 
 }
