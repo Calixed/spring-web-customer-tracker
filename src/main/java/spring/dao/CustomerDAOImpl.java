@@ -11,24 +11,23 @@ import spring.entity.Customer;
 
 @Repository // always applied in any DAO implementation classes
 public class CustomerDAOImpl implements CustomerDAO {
-	
+
 	// required to inject the session Factory
 	@Autowired
 	private SessionFactory sessionFactory; // this is a bean in the spring-config as dataSoruce
-	
+
 	@Override
 	public List<Customer> getCustomers() {
-		
+
 		// get the current Hibernate session
 		Session currentSession = sessionFactory.getCurrentSession();
-		
+
 		// create a query ... sorted by the last name
-		Query<Customer> queryCommand = currentSession.createQuery("from Customer order by lastName", 
-													Customer.class);
-		
+		Query<Customer> queryCommand = currentSession.createQuery("from Customer order by lastName", Customer.class);
+
 		// execture and get result list
 		List<Customer> customers = queryCommand.getResultList();
-		
+
 		// return the list
 		return customers;
 	}
@@ -38,21 +37,33 @@ public class CustomerDAOImpl implements CustomerDAO {
 		// get current hibernate session
 		Session currentSession = sessionFactory.getCurrentSession();
 		
-		// save the customer 
-		currentSession.save(theCustomer);
+		// there two ways of saving; save new record or update existing record
+		currentSession.saveOrUpdate(theCustomer);
 	}
 
 	@Override
-	public Customer getCustomer(int theId) {
+	public Customer getCustomer(int tempCustomerId) {
 		// get the current hibernate session
 		Session currentSession = sessionFactory.getCurrentSession();
-		
+
 		// now retrieve/read from database using the primary key
-		Customer tempCustomer = currentSession.get(Customer.class, theId);
-		
+		Customer tempCustomer = currentSession.get(Customer.class, tempCustomerId);
+
 		return tempCustomer;
 	}
 
-	
+	@Override
+	public void deleteCustomer(int tempCustomerId) {
+		// get the current hibernate session
+		Session currentSession = sessionFactory.getCurrentSession();
+		
+		// delete object with primary key
+		Query queryCommand = currentSession.createQuery("delete from Customer where id=:customerId");
+		
+		// setting the parameters of the query command for id=:customerId
+		queryCommand.setParameter("customerId",tempCustomerId);
+		
+		queryCommand.executeUpdate();
+	}
 
 }
