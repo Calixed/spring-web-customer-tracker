@@ -65,7 +65,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 
 		queryCommand.executeUpdate();
 	}
-
+   
 	@Override
 	public List<Customer> searchCustomer(String tempCustomerName) {
 		// get the current hibernate session
